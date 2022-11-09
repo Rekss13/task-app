@@ -3,21 +3,22 @@ import styled from "styled-components";
 import { Draggable } from "react-beautiful-dnd";
 
 const Container = styled.div`
-    border: 1px solid ${props => (props.isDragging ? 'lightblue' : 'lightgrey')};
-    border-radius: 2px;
+    border: 2px solid ${props => (props.isDragging ? 'lightblue' : 'lightgrey')};
+    border-radius: 50%;
     padding: 8px;
-    margin-bottom: 8px;
+    margin-right: 8px;
     background-color: ${props => (props.isDragging ? 'lightblue' : 'white')};
+    width: 40px;
+    height: 40px;
 
     display: flex;
-`;
+    justify-content: center;
+    align-items: center;
 
-const Handle = styled.div`
-    width: 20px;
-    height: 20px;
-    background-color: orange;
-    border-radius: 4px;
-    margin-right: 8px;
+    &:focus {
+        outline: none;
+        border-color: deepskyblue;
+    }
 `;
 
 export default class Task extends React.Component {
@@ -25,23 +26,16 @@ export default class Task extends React.Component {
         return (
             <Draggable draggableId={this.props.task.id} index={this.props.index}>
                 {(provided, snapshot) => {
-                    return this.props.index % 2 === 0
-                        ? <Container
-                            {...provided.draggableProps}
-                            ref={provided.innerRef}
-                            isDragging={snapshot.isDragging}
-                        >
-                            <Handle {...provided.dragHandleProps} />
-                            {this.props.task.content}
-                        </Container>
-                        : <Container
+                    return (
+                    <Container
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             ref={provided.innerRef}
                             isDragging={snapshot.isDragging}
                         >
-                            {this.props.task.content}
+                            {this.props.task.content[0]}
                         </Container>
+                        );
                 }}
             </Draggable>
         );
